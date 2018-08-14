@@ -1,0 +1,96 @@
+Time complexity: for each direction o(n^2) for n rows so o(n*n^2)
+Needed: sorting
+Difficulty:Easy
+Solution by: sundar_148
+
+def toint(temp):
+    ans=[]
+    for i in range(0,len(temp)):
+        ans.append(int(temp[i]))
+    return ans
+def ascen(mat):
+    temp=[]
+    for i in range(0,len(mat)):
+        mat[i].sort()
+        temp.append(mat[i])
+    #print("ascen",temp)
+    mat=temp
+    return mat
+def desc(mat):
+    temp=[]
+    for i in range(0,len(mat)):
+        mat[i].sort()
+        mat[i].reverse()
+        temp.append(mat[i])
+   # print("desc",temp)
+    mat=temp
+    return mat
+def down(mat):
+    tmat=[]
+    for i in range(0,len(mat)):
+        temp=[]
+        for j in range(0,len(mat[0])):
+            temp.append(0)
+        tmat.append(temp)
+    for i in range(0,len(mat[0])):
+        temp=[]
+        for j in range(0,len(mat)):
+            temp.append(mat[j][i])
+        temp.sort()
+        for k in range(0,len(temp)):
+            tmat[k][i]=temp[k]
+        
+    mat=tmat    
+   # print("down after",mat)
+    return mat
+    
+def up(mat):
+    tmat=[]
+    
+    for i in range(0,len(mat)):
+        temp=[]
+        for j in range(0,len(mat[0])):
+            temp.append(0)
+        tmat.append(temp)
+    for i in range(0,len(mat[0])):
+        temp=[]
+        for j in range(0,len(mat)):
+            temp.append(mat[j][i])
+        temp.sort()
+        temp.reverse()
+        for k in range(0,len(temp)):
+            tmat[k][i]=temp[k]
+    
+    mat=tmat
+   # print("up after",mat)
+    return mat
+        
+t=int(input())
+for i in range(0,t):
+    dim=list(map(int,input().strip().split(" ")))
+    mat=[]
+    for j in range(0,dim[0]):
+       # print("checker")
+        temp=input()
+        temp=toint(temp)
+        mat.append(temp)
+   # print(mat)
+    st=input()
+   # print("string",st)
+    #start
+    for j in range(0,len(st)):
+        if st[j]=="L":
+            mat=desc(mat)
+        elif st[j]=="R":
+            mat=ascen(mat)
+        elif st[j]=="D":
+           mat= down(mat)
+        elif st[j]=="U":
+            mat=up(mat)
+    for j in range(0,len(mat)):
+        for k in range(0,len(mat[j])):
+            if len(mat[j])-1==k:
+                print(mat[j][k],end="\n")
+            else:
+                print(mat[j][k],end="")
+        

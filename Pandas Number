@@ -1,0 +1,43 @@
+#Time complexity-o(len(binary of that number)) per test case
+#Needed: Binary Number,Counting
+#Difficulty: Easy-Medium
+#Solution by: sundar_148
+
+def com(b,pos,n):
+    if len(pos)==1:
+        if n==1:
+            return 2
+        else:
+            return 1
+    elif len(pos)==2:
+        return 0
+    else:
+        mn=pow(2,pos[0])+pow(2,pos[1])
+        if pos[0]==pos[1]+1:
+            ma=pow(2,pos[0]+1)+1
+        else:
+            ma=pow(2,pos[0])+pow(2,pos[1]+1)
+        if abs(n-mn)<abs(n-ma):
+            return abs(n-mn)
+        else:
+            return abs(n-ma)
+        
+            
+        
+def checker(sn,n):
+    b=[]
+    pos=[]
+    for i in range(0,len(sn)):
+        if sn[i]=="1":
+            pos.append((len(sn)-i)-1)
+            b.append(1)
+        else:
+            b.append(0)
+  # # print("bin",b,"pos",pos)
+    return com(b,pos,n)        
+            
+t=int(input())
+for i in range(0,t):
+    n=int(input())
+    sn=bin(n)[2:]
+    print(checker(sn,n))

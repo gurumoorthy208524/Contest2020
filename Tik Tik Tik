@@ -1,0 +1,77 @@
+// Time Complexity: o(24*60*60) and o(1) per test case
+// Needed: Dynamic programming,prime number
+// Problem solution by:Sundar_148
+
+#include <stdio.h>
+int dp[24][60][60],second_dp[24][60][60];
+int gcd(int a, int b)
+{
+    if (a == 0)
+        return b;
+    return gcd(b % a, a);
+}
+int prime_checker(int h,int m,int s){
+    int i,j,k,count=0;
+    for(i=2;i<=59;i++){
+        for(j=1;j<=i;j++){
+            if(i%j==0){count+=1;}
+        }
+        if(count==2){
+            if(h%i==0 && m%i==0 && s%i==0){
+               // printf("divide it\n");
+                return 1;
+            }
+        }
+        count=0;
+    }
+  //  printf("not divide good\n");
+    return 0;
+}
+void calculate()
+{
+    int i,j,k,count=1;
+    for(i=23;i>=0;i--){
+        for(j=59;j>=0;j--){
+            for(k=59;k>=0;k--){
+               // printf("%d i %d j %d k\n",i,j,k);
+               second_dp[i][j][k]=count;
+               count+=1;
+                if(i==23 && j==59 && k==59){
+                    dp[i][j][k]=1;
+                    
+                }
+                else{
+                    int prev=dp[i][j][k+1];
+                    if(prime_checker(i,j,k)==0){dp[i][j][k]=prev+1;
+                    //printf("prime checker\n");
+                    }
+                    else{dp[i][j][k]=dp[i][j][k+1];}
+                }
+              //  printf("value upto %d\n",dp[i][j][k]);
+            }
+        }
+    }
+}
+int main()
+{
+    long long int i,t;
+    scanf("%lld",&t);
+    calculate();
+    for(i=0;i<t;i++){
+        int h,m,s;
+        scanf("%d %d %d",&h,&m,&s);
+       // printf("%d is h and %d %d is m s\n",h,m,s);
+       // printf("%d is the answer************* %d is second_dp\n",dp[h][m][s],second_dp[h][m][s]);
+        int good=dp[h][m][s];
+        int bad=second_dp[h][m][s]-good;
+        printf("%d is good and %d is bad\n",good,bad);
+        int gcd_div=gcd(good,bad);
+        printf("%d is the gcd_div\n",gcd_div);
+        if(good==0 || bad==0){printf("%d : %d\n",bad,good);}
+        else{
+        printf("%d : %d\n",bad/gcd_div,good/gcd_div);}
+        
+    }
+    
+    return 0;
+}
